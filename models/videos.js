@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator")
 const Schema = mongoose.Schema;
 
-const Articles = new Schema({
+const Videos = new Schema({
     id:{
         unique:true,
         type:String,
@@ -13,12 +13,12 @@ const Articles = new Schema({
         profile:String,
         id:String
     },
-    article:{
+    video:{
         url:{
             type:String,
             unique:true,
         },
-        readingTime:Number,
+        watchTime:Number,
         publishedOn:Date,
         img:String,
         title:String,
@@ -29,7 +29,7 @@ const Articles = new Schema({
     source:String,
     contentType:{
         type:String,
-        default:"article"
+        default:"video"
     },
     nouns:{
         type:Array,
@@ -37,6 +37,6 @@ const Articles = new Schema({
     }
 })
 
-Articles.plugin(uniqueValidator);
+Videos.plugin(uniqueValidator);
 
-module.exports = mongoose.model("articles",Articles);
+module.exports = mongoose.model("videos",Videos);
