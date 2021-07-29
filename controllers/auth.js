@@ -3,7 +3,8 @@ const {find_element}  = require("../helpers/findElement");
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-
+const Analytics = require("../models/analytics");
+const mongoose = require("mongoose");
 
 const verify_refresh_token = async (req, res,next) => {
     const {email,refreshToken} = req.body;
@@ -96,9 +97,18 @@ const SIGNUP = async (req,res,next)=>{
         password:hashedPassword,
         refreshToken
     })
-    
+    let newAnalytics = new Analytics({
+        clicked:[],
+        viewed:[],
+        sessions:[]
+    });
     try{
-        await newUser.save()
+        let session = await mongoose.startSession();
+        session.startTransaction();
+        await newAnalytics.save({session});
+        newUser.analytics = newAnalytics;
+        await newUser.save({session})
+        await session.commitTransaction()
     }catch(err){
         return next(new HttpError(err,"while saving the user",500))
     }

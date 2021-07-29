@@ -9,7 +9,9 @@ server.use(express.urlencoded({extended:true}));
 const AuthServer = require("./routers/auth");
 const ContentServer = require("./routers/content");
 const staticServer = require("./routers/statics");
+const AnalyticServer = require("./routers/analytics");
 
+server.use("/api/v1/analytics",AnalyticServer)
 server.use("/api/v1/statics",staticServer)
 server.use("/api/v1/content",ContentServer)
 server.use("/api/v1/auth",AuthServer);
