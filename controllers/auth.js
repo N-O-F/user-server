@@ -63,7 +63,7 @@ const login = async (req, res) => {
     }catch(err){
         return next(new HttpError(err,"can't save the refreshToken",500))
     }
-    res.json({status:"ok",data:{ accessToken: accessToken, refreshToken: refreshToken,email,tags:findUser.tags,profession:findUser.profession }})
+    res.json({status:"ok",data:{ accessToken: accessToken, refreshToken: refreshToken,email,tags:findUser.tags,profession:findUser.profession,email:email,username:findUser.username }})
 }
 
 const generateAccessToken = (user)=> {
@@ -76,7 +76,8 @@ const SIGNUP = async (req,res,next)=>{
         email,
         password,
         tags,
-        profession
+        profession,
+        username
     } = req.body;
 
     let findUser = await find_element({email},User);
@@ -95,7 +96,8 @@ const SIGNUP = async (req,res,next)=>{
         tags,
         profession,
         password:hashedPassword,
-        refreshToken
+        refreshToken,
+        username
     })
     let newAnalytics = new Analytics({
         clicked:[],
