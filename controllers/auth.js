@@ -36,7 +36,7 @@ const logout = async  (req, res,next) => {
     res.sendStatus(204)
 }
 
-const login = async (req, res) => {
+const login = async (req, res,next) => {
     // Authenticate User
 
     const {email,password} = req.body;
